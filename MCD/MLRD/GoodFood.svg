@@ -1,0 +1,124 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="800" height="800" view_box="0 0 800 800"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 le Fri, 11 Feb 2022 03:47:22</desc>
+
+<rect id="frame" x="0" y="0" width="800" height="800" fill="#f7f7f7" stroke="none" stroke-width="0"/>
+
+<!-- Association APPARTIENT -->
+<line x1="48" y1="530" x2="200" y2="490" stroke="#4393c3" stroke-width="2"/>
+<text x="92" y="534.704504039" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<path d="M350 400 C 352.666666667 457.333333333 302.666666667 487.333333333 200 490" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="301.645667009" y="451" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<line x1="500" y1="600" x2="200" y2="490" stroke="#4393c3" stroke-width="2"/>
+<text x="428" y="597.633569805" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<path d="M350 400 C 300.666666667 370.666666667 250.666666667 400.666666667 200 490" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="284" y="410.354332991" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<g id="association-APPARTIENT">
+	<path d="M 232 465 a 14 14 90 0 1 14 14 V 490 h -92 V 479 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
+	<path d="M 246 490.0 v 11 a 14 14 90 0 1 -14 14 H 168 a 14 14 90 0 1 -14 -14 V 490.0 H 92" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
+	<rect x="154" y="465" width="92" height="50" fill="none" rx="14" stroke="#4393c3" stroke-width="2"/>
+	<line x1="154" y1="490" x2="246" y2="490" stroke="#4393c3" stroke-width="1"/>
+	<text x="161" y="482.7" fill="#000000" font-family="Verdana" font-size="12">APPARTIENT</text>
+</g>
+
+<!-- Association EST COMPOSE DE -->
+<line x1="48" y1="530" x2="250" y2="600" stroke="#4393c3" stroke-width="2"/>
+<text x="92" y="563.219912491" fill="#b2182b" font-family="Verdana" font-size="12">1,N</text>
+<line x1="500" y1="600" x2="250" y2="600" stroke="#4393c3" stroke-width="2"/>
+<text x="428" y="617.0" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<g id="association-EST COMPOSE DE">
+	<path d="M 298 575 a 14 14 90 0 1 14 14 V 600 h -124 V 589 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
+	<path d="M 312 600.0 v 11 a 14 14 90 0 1 -14 14 H 202 a 14 14 90 0 1 -14 -14 V 600.0 H 124" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
+	<rect x="188" y="575" width="124" height="50" fill="none" rx="14" stroke="#4393c3" stroke-width="2"/>
+	<line x1="188" y1="600" x2="312" y2="600" stroke="#4393c3" stroke-width="1"/>
+	<text x="195" y="592.7" fill="#000000" font-family="Verdana" font-size="12">EST COMPOSE DE</text>
+	<text x="195" y="617.8" fill="#000000" font-family="Verdana" font-size="12">quantity unity</text>
+</g>
+
+<!-- Association PEUT CREE -->
+<path d="M381 60 C 424.375793475 80.4401186411 420.709126808 147.106785308 370 260" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="383.398988797" y="128" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<path d="M48 530 C -11.7731315785 529.126538901 95.5602017548 439.126538901 370 260" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="92" y="469.804000912" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
+<line x1="381" y1="60" x2="370" y2="260" stroke="#4393c3" stroke-width="2"/>
+<text x="407.796011203" y="128" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<line x1="500" y1="600" x2="370" y2="260" stroke="#4393c3" stroke-width="2"/>
+<text x="489.0083615" y="558" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
+<path d="M381 60 C 335.644206525 75.5598813589 331.977539859 142.226548026 370 260" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="349.601011203" y="128" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<line x1="350" y1="400" x2="370" y2="260" stroke="#4393c3" stroke-width="2"/>
+<text x="329.928200397" y="358" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
+<g id="association-PEUT CREE">
+	<path d="M 397 235 a 14 14 90 0 1 14 14 V 260 h -82 V 249 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
+	<path d="M 411 260.0 v 11 a 14 14 90 0 1 -14 14 H 343 a 14 14 90 0 1 -14 -14 V 260.0 H 82" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
+	<rect x="329" y="235" width="82" height="50" fill="none" rx="14" stroke="#4393c3" stroke-width="2"/>
+	<line x1="329" y1="260" x2="411" y2="260" stroke="#4393c3" stroke-width="1"/>
+	<text x="336" y="252.7" fill="#000000" font-family="Verdana" font-size="12">PEUT CREE</text>
+</g>
+
+<!-- Entity CATEGORY -->
+<g id="entity-CATEGORY">
+	<g id="frame-CATEGORY">
+		<rect x="311" y="366" width="78" height="25" fill="#f4a582" stroke="#f4a582" stroke-width="0"/>
+		<rect x="311" y="391.0" width="78" height="43" fill="#fddbc7" stroke="#fddbc7" stroke-width="0"/>
+		<rect x="311" y="366" width="78" height="68" fill="none" stroke="#d6604d" stroke-width="2"/>
+		<line x1="311" y1="391" x2="389" y2="391" stroke="#d6604d" stroke-width="1"/>
+	</g>
+	<text x="316" y="383.7" fill="#000000" font-family="Verdana" font-size="12">CATEGORY</text>
+	<text x="316" y="408.8" fill="#000000" font-family="Verdana" font-size="12">id</text>
+	<line x1="316" y1="411" x2="328" y2="411" stroke="#000000" stroke-width="1"/>
+	<text x="316" y="425.8" fill="#000000" font-family="Verdana" font-size="12">name</text>
+</g>
+
+<!-- Entity RECIPE -->
+<g id="entity-RECIPE">
+	<g id="frame-RECIPE">
+		<rect x="9" y="462" width="78" height="25" fill="#f4a582" stroke="#f4a582" stroke-width="0"/>
+		<rect x="9" y="487.0" width="78" height="111" fill="#fddbc7" stroke="#fddbc7" stroke-width="0"/>
+		<rect x="9" y="462" width="78" height="136" fill="none" stroke="#d6604d" stroke-width="2"/>
+		<line x1="9" y1="487" x2="87" y2="487" stroke="#d6604d" stroke-width="1"/>
+	</g>
+	<text x="25" y="479.7" fill="#000000" font-family="Verdana" font-size="12">RECIPE</text>
+	<text x="14" y="504.7" fill="#000000" font-family="Verdana" font-size="12">id</text>
+	<line x1="14" y1="507" x2="26" y2="507" stroke="#000000" stroke-width="1"/>
+	<text x="14" y="521.7" fill="#000000" font-family="Verdana" font-size="12">title</text>
+	<text x="14" y="538.8" fill="#000000" font-family="Verdana" font-size="12">slug</text>
+	<text x="14" y="555.8" fill="#000000" font-family="Verdana" font-size="12">ingredient</text>
+	<text x="14" y="572.8" fill="#000000" font-family="Verdana" font-size="12">description</text>
+	<text x="14" y="589.8" fill="#000000" font-family="Verdana" font-size="12">picture</text>
+</g>
+
+<!-- Entity USER -->
+<g id="entity-USER">
+	<g id="frame-USER">
+		<rect x="358" y="9" width="46" height="25" fill="#f4a582" stroke="#f4a582" stroke-width="0"/>
+		<rect x="358" y="34.0" width="46" height="77" fill="#fddbc7" stroke="#fddbc7" stroke-width="0"/>
+		<rect x="358" y="9" width="46" height="102" fill="none" stroke="#d6604d" stroke-width="2"/>
+		<line x1="358" y1="34" x2="404" y2="34" stroke="#d6604d" stroke-width="1"/>
+	</g>
+	<text x="364" y="26.7" fill="#000000" font-family="Verdana" font-size="12">USER</text>
+	<text x="363" y="51.7" fill="#000000" font-family="Verdana" font-size="12">id</text>
+	<line x1="363" y1="54" x2="375" y2="54" stroke="#000000" stroke-width="1"/>
+	<text x="363" y="68.8" fill="#000000" font-family="Verdana" font-size="12">name</text>
+	<text x="363" y="85.8" fill="#000000" font-family="Verdana" font-size="12">email</text>
+	<text x="363" y="102.8" fill="#000000" font-family="Verdana" font-size="12">mdp</text>
+</g>
+
+<!-- Entity INGREDIENT -->
+<g id="entity-INGREDIENT">
+	<g id="frame-INGREDIENT">
+		<rect x="455" y="566" width="90" height="25" fill="#f4a582" stroke="#f4a582" stroke-width="0"/>
+		<rect x="455" y="591.0" width="90" height="43" fill="#fddbc7" stroke="#fddbc7" stroke-width="0"/>
+		<rect x="455" y="566" width="90" height="68" fill="none" stroke="#d6604d" stroke-width="2"/>
+		<line x1="455" y1="591" x2="545" y2="591" stroke="#d6604d" stroke-width="1"/>
+	</g>
+	<text x="460" y="583.7" fill="#000000" font-family="Verdana" font-size="12">INGREDIENT</text>
+	<text x="460" y="608.8" fill="#000000" font-family="Verdana" font-size="12">id</text>
+	<line x1="460" y1="611" x2="472" y2="611" stroke="#000000" stroke-width="1"/>
+	<text x="460" y="625.8" fill="#000000" font-family="Verdana" font-size="12">name</text>
+</g>
+</svg>
