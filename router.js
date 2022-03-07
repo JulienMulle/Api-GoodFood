@@ -3,6 +3,7 @@ const userController = require('./controllers/userController');
 const categoryController = require('./controllers/categoryController');
 const itemController = require('./controllers/itemController');
 const recipeController = require('./controllers/recipeController');
+const multer = require('./middlewares/uploadMedia');
 
 const router = express.Router();
 
@@ -34,8 +35,8 @@ router.delete('/items/:itemId/categories/:categoryId', itemController.deleteCate
 //routes pour recipes
 router.get('/recipes', recipeController.getAllRecipes);
 router.get('/recipes/:id', recipeController.getRecipe);
-router.post('/recipes/', recipeController.createRecipe);
-router.patch('/recipes/:id', recipeController.updateRecipe);
+router.post('/recipes/',multer, recipeController.createRecipe);
+router.patch('/recipes/:id', multer, recipeController.updateRecipe);
 router.delete('/recipes/:id', recipeController.deleteRecipe);
 router.post('/recipes/:recipeId/items/:itemId', recipeController.associateRecipeToItem);
 router.delete('/recipes/:recipeId/items/:itemId', recipeController.deleteRecipeToItem);

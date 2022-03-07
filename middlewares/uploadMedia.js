@@ -9,20 +9,21 @@ const MIME_TYPES = {
     "image/gif" : "gif",
     "image/png" : "png"
 };
-
+const DIR = './IMG';
 //repertoire des fichier. avec generation des nom de fichier unique
 const storage = multer.diskStorage({
     //destination de stockage
-    destination : (req, file, callback) => {
-        callback(null, "IMG");
+    destination : (req, file, cb) => {
+        cb(null, DIR);
     }, 
-    filename: (req, file, callback) =>{
+    filename: (req, file, cb) =>{
         //suppression des espaces dans le nom du fichier
         const name = file.originalname.split(" ").join("_");
         const extension = MIME_TYPES[file.mimetype];
 
-        callback(null, name + "_" + Date.now() + extension);
+        cb(null, name + "_" + Date.now() + extension);
     }
 })
 
-module.exports = multer({storage}).single("image");
+
+module.exports = multer({storage}).single("picture");

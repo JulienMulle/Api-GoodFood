@@ -53,7 +53,6 @@ const itemController = {
             }
 
             const item = new Item({
-            
                 name,
             });
 

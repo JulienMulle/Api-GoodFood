@@ -33,7 +33,7 @@ const recipeController = {
             const bodyErrors = [];
 
             if (!title || !ingredient || !description) {
-                bodyErrors.push('il manque soit le titre, soit au moins un ingredient ou une description')
+                return res.status(400).json('il manque soit le titre, soit au moins un ingredient ou une description')
             }
             
             const recipe = new Recipe({
