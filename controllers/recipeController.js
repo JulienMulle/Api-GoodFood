@@ -1,4 +1,5 @@
 const {Recipe, Item} = require('../models');
+const path = require('path')
 
 const recipeController = {
     getAllRecipes: async (req, res) =>{
@@ -29,9 +30,9 @@ const recipeController = {
 
     createRecipe: async (req, res) =>{
         try {
-            const {title, ingredient, description, picture } = req.body;
-            const bodyErrors = [];
-
+            const {title, ingredient, description } = req.body;
+            const {picture} = req.file.path;
+            
             if (!title || !ingredient || !description) {
                 return res.status(400).json('il manque soit le titre, soit au moins un ingredient ou une description')
             }
@@ -40,11 +41,12 @@ const recipeController = {
                 title,
                 ingredient,
                 description,
-                picture
+                picture,
             });
 
             await recipe.save();
             res.json(recipe);
+            
         } catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
@@ -54,7 +56,8 @@ const recipeController = {
     updateRecipe: async (req, res) =>{
         try {
             const id = req.params.id;
-            const { title, ingredient, description, picture } = req.body;
+            const { title, ingredient, description } = req.body;
+            const picture = req.file.path;
 
             const recipe = await Recipe.findByPk(id);
             if (!recipe){
