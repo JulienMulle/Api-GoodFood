@@ -1,14 +1,13 @@
 const {Recipe, Item} = require('../models');
-const path = require('path')
 
 const recipeController = {
     getAllRecipes: async (req, res) =>{
         try {
-            const recipes = await Recipe.findAll();
-            res.json(recipes);
+            const recipes = await Recipe.findAll({});
+            res.send(recipes);
         }catch(err){
             console.trace(err);
-            res.status(500).json(err.toString());
+            res.status(500).send(err.toString());
         }
     },
 
@@ -18,23 +17,31 @@ const recipeController = {
             const recipe = await Recipe.findByPk(id);
 
             if (recipe){
-                res.json(recipe);
+                res.send(recipe);
+                
             }else {
-                res.status(400).json('recette inconnu')
+                res.status(400).send('recette inconnu')
             }
         }catch(err){
             console.trace(err);
-            res.status(500).json(err.toString());
+            res.status(500).send(err.toString());
         }
     },
 
     createRecipe: async (req, res) =>{
         try {
             const {title, ingredient, description } = req.body;
-            const {picture} = req.file.path;
+            const picture = `${req.protocol}://${req.get('host')}/IMG/${req.file.filename}`
+            //let picture = req.file.path;
             
-            if (!title || !ingredient || !description) {
-                return res.status(400).json('il manque soit le titre, soit au moins un ingredient ou une description')
+            if (!title) {
+                return res.status(400).send('il manque soit le titre, soit au moins un ingredient ou une description')
+            }else if (!ingredient) {
+                return res.status(400).send('il manque au moins un ingredient ou une description')
+            }else if (!description) {
+                return res.status(400).send('il manque une description')
+            }else if (!picture) {
+                return res.status(400).send('il manque une photo')
             }
             
             const recipe = new Recipe({
@@ -45,11 +52,11 @@ const recipeController = {
             });
 
             await recipe.save();
-            res.json(recipe);
+            res.send(recipe);
             
         } catch (err) {
             console.trace(err);
-            res.status(500).json(err.toString());
+            res.status(500).send(err.toString());
         }
     },
     
@@ -57,11 +64,12 @@ const recipeController = {
         try {
             const id = req.params.id;
             const { title, ingredient, description } = req.body;
-            const picture = req.file.path;
+            //const picture = req.file.path;
+            const picture = `${req.protocol}://${req.get('host')}/IMG/${req.file.filename}`
 
             const recipe = await Recipe.findByPk(id);
             if (!recipe){
-                return res.status(400).json('recette introuvable')
+                return res.status(400).send('recette introuvable')
             }
 
             if(title || ingredient || description || picture){
@@ -72,10 +80,10 @@ const recipeController = {
             }
 
             await recipe.save();
-            res.json(recipe);
+            res.send(recipe);
         }catch (err) {
             console.trace(err);
-            res.status(500).json(err.toString());
+            res.status(500).send(err.toString());
         }
     },
 
@@ -85,14 +93,14 @@ const recipeController = {
             const recipe = await Recipe.findByPk(id);
 
             if (!recipe) {
-                return res.status(400).json('recette introuvable');
+                return res.status(400).send('recette introuvable');
             }
 
             await recipe.destroy();
-            res.json('recette supprimée')
+            res.send('recette supprimée')
         }catch(err){
             console.trace(err);
-            res.status(500).json(err.toString());
+            res.status(500).send(err.toString());
         }
     },
 
@@ -102,12 +110,12 @@ const recipeController = {
 
             let recipe = await Recipe.findByPk(recipeId);
             if (!recipe){
-                return res.status(400).json('je ne trouve pas cette recette');
+                return res.status(400).send('je ne trouve pas cette recette');
             }
 
             const item = await Item.findByPk(itemId);
             if (!item){
-                return res.status(400).json('je ne trouve pas ce produit');
+                return res.status(400).send('je ne trouve pas ce produit');
             }
             
             await item.addRecipe(recipe);
@@ -115,10 +123,10 @@ const recipeController = {
                 include:['recipes'],
             })
 
-            res.json(recipe);
+            res.send(recipe);
         }catch (err) {
             console.trace(err);
-            res.status(500).json(err.toString());
+            res.status(500).send(err.toString());
         }
     },
 
@@ -128,12 +136,12 @@ const recipeController = {
 
             let recipe = await Recipe.findByPk(recipeId);
             if (!recipe){
-                return res.status(400).json('je ne trouve pas cette recette');
+                return res.status(400).send('je ne trouve pas cette recette');
             }
 
             const item = await Item.findByPk(itemId);
             if (!item){
-                return res.status(400).json('je ne trouve pas ce produit');
+                return res.status(400).send('je ne trouve pas ce produit');
             }
             
             await item.removeRecipe(recipe);
@@ -141,10 +149,10 @@ const recipeController = {
                 include:['recipes'],
             })
 
-            res.json(recipe);
+            res.send(recipe);
         }catch (err) {
             console.trace(err);
-            res.status(500).json(err.toString());
+            res.status(500).send(err.toString());
         }
     },
 

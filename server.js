@@ -6,12 +6,13 @@ const userMiddleware = require('./middlewares/userMiddleware');
 require('dotenv').config({path: './config/.env'});
 const bodyParser = require('body-parser');
 const bodySanitizer = require('./middlewares/bodySanitizer');
+const path = require('path');
 const cors = require('cors');
 const router = require('./router');
 const app = express();
 
 app.use(cors({
-    origin:'http://localhost:3000'
+    origin:'http://localhost:8080'
 }));
 
 //le serveur est lancée sur le port 5000 et avec un callback qui me fait un retour en console.
@@ -27,5 +28,6 @@ app.use(session({
 
 app.use(userMiddleware);
 app.use(router);
+app.use('/IMG', express.static(path.join(__dirname, 'IMG')));
 app.listen(process.env.PORT, 
     ()=>{console.log('connexion au serveur : ok')})
