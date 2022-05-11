@@ -4,7 +4,7 @@ const sequelize = require('../db');
 class Item extends Model {};
 
 Item.init({
-    id:{ 
+   id:{ 
         type: DataTypes.NUMBER,  
         primaryKey: true,
         autoIncrement: true,

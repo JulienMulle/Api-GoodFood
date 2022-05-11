@@ -57,7 +57,7 @@ const itemController = {
             });
 
             await item.save();
-            res.json(item);
+            res.status(201).json(item);
         }catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
@@ -90,12 +90,12 @@ const itemController = {
             const id = req.params.id;
             const item = await Item.findByPk(id);
 
-            if (!item) {
-                return res.status(400).json('produit inconnu');
+            if (item) {
+                await item.destroy();
+                res.json('ok');
+            }else {
+                res.status(404).json('Can\t find any list with this ID.');
             }
-
-            await item.destroy();
-            res.json('ok');
         }catch(err){
             console.trace(err);
             res.status(500).json(err.toString());
@@ -161,6 +161,6 @@ const itemController = {
     
 
     
-};
+}
 
 module.exports = itemController;

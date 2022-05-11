@@ -12,6 +12,7 @@ const router = require('./router');
 const app = express();
 
 app.use(cors({
+    
     origin:'http://localhost:8080'
 }));
 

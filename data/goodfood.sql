@@ -1,3 +1,5 @@
+BEGIN;
+
 DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS "recipe" CASCADE;
 DROP TABLE IF EXISTS "ingredient" CASCADE;
@@ -18,7 +20,6 @@ CREATE TABLE IF NOT EXISTS "user" (
 CREATE TABLE IF NOT EXISTS "recipe"(
     "id" SERIAL PRIMARY KEY,
     "title" VARCHAR NOT NULL,
-    "ingredient" TEXT [],
     "description" TEXT,
     "picture" VARCHAR,
     "user_id" INTEGER REFERENCES "user"("id")
