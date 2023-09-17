@@ -36,7 +36,7 @@ router.delete('/:itemId/removeFromRecipe/:recipeId', itemController.removeFromRe
 //routes pour recipes
 router.get('/recipe/:id', recipeController.getRecipeWithItem);
 router.get('/recipes', recipeController.getAllRecipes);
-router.post('/recipe/', multer, recipeController.createRecipe);
+router.post('/recipe', multer, recipeController.createRecipe);
 router.patch('/recipe/:id', multer, recipeController.updateRecipe);
 router.delete('/recipe/:id', recipeController.deleteRecipe);
 

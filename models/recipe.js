@@ -17,11 +17,6 @@ Recipe.init({
     description: DataTypes.TEXT,
     picture: {
         type:DataTypes.STRING,
-        validate: {
-            isUrl: {
-                msg: 'La valeur de picture doit être une URL valide.',
-            },
-        },
     }
 
 }, {
