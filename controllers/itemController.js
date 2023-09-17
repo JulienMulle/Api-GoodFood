@@ -1,6 +1,5 @@
-const {Item, Category} = require('../models/');
+const {Item, Category, Recipe, ItemRecipe} = require('../models/');
 const { findByPk} = require("../models/recipe");
-const {ItemRecipe} = require("../models");
 
 const itemController = {
 
@@ -163,35 +162,40 @@ const itemController = {
     associateRecipeToItem: async (req, res) => {
         try {
             const { itemId, recipeId } = req.params;
-
+            const { quantity, unit } = req.body;
             let item = await Item.findByPk(itemId);
             if (!item) {
                 return res.status(400).json('Produit inconnu');
             }
-
             const recipe = await Recipe.findByPk(recipeId);
             if (!recipe) {
                 return res.status(400).json('Recette inconnue');
             }
+            const existingAssociation = await ItemRecipe.findOne({
+                where: {
+                    item_id: itemId,
+                    recipe_id: recipeId,
+                },
+            });
 
-            // Associer l'élément à la recette (utilisation de la relation many-to-many)
+            if (existingAssociation) {
+                return res.status(200).json(item);
+            }
             await ItemRecipe.create({
                 item_id: itemId,
                 recipe_id: recipeId,
-                quantity: null,
-                unit: null,
+                quantity: quantity,
+                unit: unit,
             });
-
             item = await Item.findByPk(itemId, {
                 include: [{
                     model: Recipe,
-                    as: 'recipes',
+                    as: 'recipe',
                     through: {
-                        model: item_recipe,
+                        model: ItemRecipe,
                     },
                 }],
             });
-
             res.json(item);
         } catch (err) {
             console.trace(err);
@@ -202,21 +206,15 @@ const itemController = {
     removeFromRecipe: async (req, res) => {
         try {
             const { itemId, recipeId } = req.params;
-
             let item = await Item.findByPk(itemId);
             if (!item) {
                 return res.status(400).json('Produit inconnu');
             }
-
             const recipe = await findByPk(recipeId);
             if (!recipe) {
                 return res.status(400).json('Recette inconnue');
             }
-
-            // Supprimer l'association de l'élément avec la recette
-            await item.removeRecipe(recipe);
-
-            // Récupérer l'élément mis à jour sans la recette associée
+            await Item.destroy(recipe);
             item = await Item.findByPk(itemId);
 
             res.json(item);

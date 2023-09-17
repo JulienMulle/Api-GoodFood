@@ -1,25 +1,18 @@
-const {Recipe, Item} = require('../models');
+const {Recipe, Item,ItemRecipe } = require('../models');
 
 const recipeController = {
     getAllRecipes: async (req, res) =>{
         try {
-            const recipes = await Recipe.findAll();
+            const recipes = await Recipe.findAll({
+                include:[{
+                    model:Item,
+                    as:'items',
+                    through:{
+                        model:ItemRecipe
+                    }
+                }]
+            });
             res.send(recipes);
-        }catch(err){
-            console.trace(err);
-            res.status(500).send(err.toString());
-        }
-    },
-
-    getRecipe: async (req, res) =>{
-        try {
-            const id = req.params.id;
-            const recipe = await Recipe.findByPk(id);
-            if (recipe){
-                res.send(recipe);
-            }else {
-                res.status(400).send('recette inconnu')
-            }
         }catch(err){
             console.trace(err);
             res.status(500).send(err.toString());
@@ -62,8 +55,8 @@ const recipeController = {
                 return res.status(400).send('recette introuvable')
             }
             if(title ||  description || picture){
-                recipe.title = title,
-                recipe.description = description,
+                recipe.title = title
+                recipe.description = description
                 recipe.picture = picture
             }
             await recipe.save();
@@ -81,69 +74,43 @@ const recipeController = {
             if (!recipe) {
                 return res.status(400).send('recette introuvable');
             }
+            const itemAssociations = await ItemRecipe.findAll({
+                where: { recipe_id: recipe.id },
+            });
+            for (const association of itemAssociations) {
+                await association.destroy();
+            }
             await recipe.destroy();
             res.send('recette supprimée')
         }catch(err){
-            console.trace(err);
+            console.trace('error delete',err);
             res.status(500).send(err.toString());
         }
     },
 
-    associateRecipeToItem : async (req, res) =>{
+    getRecipeWithItem: async (req, res)=>{
         try {
-            const {recipeId, itemId} = req.params;
-
-            let recipe = await Recipe.findByPk(recipeId);
-            if (!recipe){
-                return res.status(400).send('je ne trouve pas cette recette');
-            }
-
-            const item = await Item.findByPk(itemId);
-            if (!item){
-                return res.status(400).send('je ne trouve pas ce produit');
-            }
-
-            await item.addRecipe(recipe);
-            item = await Item.findByPk(itemId, {
-                include:['recipes'],
-            })
-
-            const updatedItem = await Item.findByPk(itemId, {
-                include: ['recipes'],
+            const id = req.params.id;
+            const recipe = await Recipe.findByPk(id, {
+                include: [{
+                    model: Item,
+                    as: 'items',
+                    through: {
+                        model: ItemRecipe,
+                    },
+                }],
             });
-
-            res.send(recipe);
-        }catch (err) {
-            console.trace(err);
-            res.status(500).send(err.toString());
-        }
-    },
-
-    deleteRecipeToItem : async (req, res) =>{
-        try {
-            const {recipeId, itemId} = req.params;
-
-            let recipe = await Recipe.findByPk(recipeId);
-            if (!recipe){
-                return res.status(400).send('je ne trouve pas cette recette');
+            if (!recipe) {
+                return res.status(404).json('Recette non trouvée');
             }
 
-            const item = await Item.findByPk(itemId);
-            if (!item){
-                return res.status(400).send('je ne trouve pas ce produit');
-            }
-
-            await item.removeRecipe(recipe);
-            item = await Item.findByPk(itemId, {
-                include:['recipes'],
-            })
-
-            res.send(recipe);
-        }catch (err) {
+            res.json(recipe);
+        } catch (err) {
             console.trace(err);
-            res.status(500).send(err.toString());
+            res.status(500).json(err.toString());
         }
-    },
+    }
+
 
 };
 

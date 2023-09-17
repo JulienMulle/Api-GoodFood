@@ -7,7 +7,10 @@ ItemRecipe.init({
         type: DataTypes.DECIMAL,
     },
     unit: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.STRING,
+        validate:{
+            len:[1,10]
+        }
     },
 
 },

@@ -34,12 +34,10 @@ router.post('/item/:itemId/associateRecipe/:recipeId', itemController.associateR
 router.delete('/:itemId/removeFromRecipe/:recipeId', itemController.removeFromRecipe);
 
 //routes pour recipes
+router.get('/recipe/:id', recipeController.getRecipeWithItem);
 router.get('/recipes', recipeController.getAllRecipes);
-router.get('/recipe/:id', recipeController.getRecipe);
 router.post('/recipe/', multer, recipeController.createRecipe);
 router.patch('/recipe/:id', multer, recipeController.updateRecipe);
 router.delete('/recipe/:id', recipeController.deleteRecipe);
-router.post('/recipe/:recipeId/items/:itemId', recipeController.associateRecipeToItem);
-router.delete('/recipe/:recipeId/items/:itemId', recipeController.deleteRecipeToItem);
 
 module.exports = router;
