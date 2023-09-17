@@ -9,11 +9,12 @@ ItemRecipe.init({
     unit: {
         type: DataTypes.DECIMAL,
     },
-    primaryKey: true
+
 },
     {
         sequelize,
         timestamps: false,
-        tableName: "category"
+        tableName: "item_recipe",
+        primaryKey: true
     })
 module.exports = ItemRecipe;

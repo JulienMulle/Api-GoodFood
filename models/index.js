@@ -64,18 +64,11 @@ Category.belongsToMany(Item, {
 
 })
 
-//est composé de, ON item, 1N recipe
-ItemRecipe.belongsToMany(Item,{
-    foreignKey:'item_id',
-    //otherKey:'item_id',
-    through:'itemRecipe',
-    //as:'items'
-});
 //reciproque
 Item.belongsToMany(Recipe, {
-    foreignKey:'recipe_id',
-    //otherKey:'item_id',
-    through:'itemRecipe'
+    otherKey:'recipe_id',
+    foreignKey:'item_id',
+    through:'ItemRecipe'
 })
 
 

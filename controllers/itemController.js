@@ -169,7 +169,7 @@ const itemController = {
                 return res.status(400).json('Produit inconnu');
             }
 
-            const recipe = await findByPk(recipeId);
+            const recipe = await Recipe.findByPk(recipeId);
             if (!recipe) {
                 return res.status(400).json('Recette inconnue');
             }
