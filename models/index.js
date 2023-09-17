@@ -47,7 +47,7 @@ Category.belongsToMany(Recipe, {
 });
 
 // Chaque article peut appartenir à plusieurs catégories,
-// et chaque catégorie peut contenir plusieurs articles.
+// et chaques catégorie peut contenir plusieurs articles.
 Item.belongsToMany(Category, {
     foreignKey: 'item_id',
     otherKey: 'category_id',
@@ -65,15 +65,15 @@ Category.belongsToMany(Item, {
 
 //est composé de, ON item, 1N recipe
 Recipe.belongsToMany(Item,{
-    foreignKey:'recipe_id',
-    otherKey:'item_id',
+    foreignKey:'item_id',
+    //otherKey:'item_id',
     through:'item_recipe',
     //as:'items'
 });
 //reciproque
 Item.belongsToMany(Recipe, {
     foreignKey:'recipe_id',
-    otherKey:'item_id',
+    //otherKey:'item_id',
     through:'item_recipe'
 })
 

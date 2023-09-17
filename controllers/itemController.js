@@ -1,4 +1,5 @@
 const {Item, Category} = require('../models/');
+const { findByPk} = require("../models/recipe");
 
 const itemController = {
 
@@ -105,7 +106,7 @@ const itemController = {
     associateCategoryToItem: async (req, res) =>{
         try {
             const {categoryId, itemId } = req.params;
-            
+
             let item = await Item.findByPk(id, {
                 include: ['categories'],
             });
@@ -134,7 +135,7 @@ const itemController = {
         try {
             const {categoryId, itemId} = req.params;
 
-            let item = await Item.findByPk(itemId, {
+            let item = await Item.findByPk(id, {
                 include: ['categories'],
             });
             if (!item){
@@ -158,9 +159,71 @@ const itemController = {
         }
     },
 
-    
+    associateRecipeToItem: async (req, res) => {
+        try {
+            const { itemId, recipeId } = req.params;
 
-    
+            let item = await Item.findByPk(itemId);
+            if (!item) {
+                return res.status(400).json('Produit inconnu');
+            }
+
+            const recipe = await findByPk(recipeId);
+            if (!recipe) {
+                return res.status(400).json('Recette inconnue');
+            }
+
+            // Associer l'élément à la recette (utilisation de la relation many-to-many)
+            await item_recipe.create({
+                item_id: itemId,
+                recipe_id: recipeId,
+                quantity: null,
+                unit: null,
+            });
+
+            item = await Item.findByPk(itemId, {
+                include: [{
+                    model: Recipe,
+                    as: 'recipes',
+                    through: {
+                        model: item_recipe,
+                    },
+                }],
+            });
+
+            res.json(item);
+        } catch (err) {
+            console.trace(err);
+            res.status(500).json(err.toString());
+        }
+    },
+
+    removeFromRecipe: async (req, res) => {
+        try {
+            const { itemId, recipeId } = req.params;
+
+            let item = await Item.findByPk(itemId);
+            if (!item) {
+                return res.status(400).json('Produit inconnu');
+            }
+
+            const recipe = await findByPk(recipeId);
+            if (!recipe) {
+                return res.status(400).json('Recette inconnue');
+            }
+
+            // Supprimer l'association de l'élément avec la recette
+            await item.removeRecipe(recipe);
+
+            // Récupérer l'élément mis à jour sans la recette associée
+            item = await Item.findByPk(itemId);
+
+            res.json(item);
+        } catch (err) {
+            console.trace(err);
+            res.status(500).json(err.toString());
+        }
+    },
 }
 
 module.exports = itemController;

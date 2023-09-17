@@ -108,6 +108,10 @@ const recipeController = {
                 include:['recipes'],
             })
 
+            const updatedItem = await Item.findByPk(itemId, {
+                include: ['recipes'],
+            });
+
             res.send(recipe);
         }catch (err) {
             console.trace(err);

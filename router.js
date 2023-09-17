@@ -28,8 +28,10 @@ router.get('/item/:id', itemController.getItem);
 router.post('/item/', itemController.createItem);
 router.patch('/item/:id', itemController.updateItem);
 router.delete('/item/:id', itemController.deleteItem);
-router.post('/items/:itemId/categories/:categoryId', itemController.associateCategoryToItem);
+router.post('/items/:id/categories/:categoryId', itemController.associateCategoryToItem);
 router.delete('/items/:itemId/categories/:categoryId', itemController.deleteCategoryToItem);
+router.post('/item/:itemId/associateRecipe/:recipeId', itemController.associateRecipeToItem);
+router.delete('/:itemId/removeFromRecipe/:recipeId', itemController.removeFromRecipe);
 
 //routes pour recipes
 router.get('/recipes', recipeController.getAllRecipes);
