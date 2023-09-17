@@ -1,16 +1,19 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../db');
 
-const itemRecipe = sequelize.define('ItemRecipe', {
+class ItemRecipe extends Model {}
+ItemRecipe.init({
     quantity: {
-        type: DataTypes.NUMERIC,
+        type: DataTypes.DECIMAL,
     },
     unit: {
-        type: DataTypes.NUMERIC,
+        type: DataTypes.DECIMAL,
     },
+    primaryKey: true
 },
     {
-        primaryKey: true
-    });
-
-module.exports = itemRecipe;
+        sequelize,
+        timestamps: false,
+        tableName: "category"
+    })
+module.exports = ItemRecipe;

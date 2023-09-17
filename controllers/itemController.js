@@ -1,5 +1,6 @@
 const {Item, Category} = require('../models/');
 const { findByPk} = require("../models/recipe");
+const {ItemRecipe} = require("../models");
 
 const itemController = {
 
@@ -174,7 +175,7 @@ const itemController = {
             }
 
             // Associer l'élément à la recette (utilisation de la relation many-to-many)
-            await item_recipe.create({
+            await ItemRecipe.create({
                 item_id: itemId,
                 recipe_id: recipeId,
                 quantity: null,

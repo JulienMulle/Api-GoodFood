@@ -2,6 +2,7 @@ const Category = require('./category');
 const Item = require('./item');
 const Recipe = require('./recipe');
 const User = require('./user');
+const ItemRecipe = require('./itemRecipe')
 
 
 //peut crée, 0N user, 11 recipe
@@ -64,17 +65,17 @@ Category.belongsToMany(Item, {
 })
 
 //est composé de, ON item, 1N recipe
-Recipe.belongsToMany(Item,{
+ItemRecipe.belongsToMany(Item,{
     foreignKey:'item_id',
     //otherKey:'item_id',
-    through:'item_recipe',
+    through:'itemRecipe',
     //as:'items'
 });
 //reciproque
 Item.belongsToMany(Recipe, {
     foreignKey:'recipe_id',
     //otherKey:'item_id',
-    through:'item_recipe'
+    through:'itemRecipe'
 })
 
 
@@ -82,5 +83,6 @@ module.exports = {
     Category,
     Item,
     Recipe,
-    User
+    User,
+    ItemRecipe
 }
