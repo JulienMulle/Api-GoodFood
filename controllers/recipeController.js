@@ -16,7 +16,7 @@ const recipeController = {
             const id = req.params.id;
             const recipe = await Recipe.findByPk(id);
             if (recipe){
-                res.send(recipe);                
+                res.send(recipe);
             }else {
                 res.status(400).send('recette inconnu')
             }
@@ -26,18 +26,18 @@ const recipeController = {
         }
     },
 
-    createRecipe: async (req, res) =>{
+    createRecipe: async (req, res) => {
         try {
-            const {title, description } = req.body;
-            const picture = `${req.protocol}://${req.get('host')}/IMG/${req.file.filename}`;
-            
+            const { title, description } = req.body;
             if (!title) {
-                return res.status(400).send('il manque le titre')
-            }else if (!description) {
-                return res.status(400).send('il manque une description')
-            }else if (!picture) {
-                return res.status(400).send('il manque une photo')
+                return res.status(400).send('Il manque le titre');
+            } else if (!description) {
+                return res.status(400).send('Il manque une description');
             }
+            if (!req.file) {
+                return res.status(400).send('Il manque une photo');
+            }
+            const picture = `${req.protocol}://${req.get('host')}/IMG/${req.file.filename}`;
             const recipe = new Recipe({
                 title,
                 description,
@@ -45,13 +45,13 @@ const recipeController = {
             });
             console.log(picture);
             await recipe.save();
-            res.send(recipe);            
+            res.send(recipe);
         } catch (err) {
             console.trace(err);
-            res.status(500).send(err.toString());            
-        }        
+            res.status(500).send(err.toString());
+        }
     },
-    
+
     updateRecipe: async (req, res) =>{
         try {
             const id = req.params.id;
@@ -102,7 +102,7 @@ const recipeController = {
             if (!item){
                 return res.status(400).send('je ne trouve pas ce produit');
             }
-            
+
             await item.addRecipe(recipe);
             item = await Item.findByPk(itemId, {
                 include:['recipes'],
@@ -128,7 +128,7 @@ const recipeController = {
             if (!item){
                 return res.status(400).send('je ne trouve pas ce produit');
             }
-            
+
             await item.removeRecipe(recipe);
             item = await Item.findByPk(itemId, {
                 include:['recipes'],

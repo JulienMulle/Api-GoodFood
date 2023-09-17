@@ -12,12 +12,9 @@ const router = require('./router');
 const app = express();
 
 app.use(cors({
-    
     origin:'http://localhost:8080'
 }));
 
-//le serveur est lancée sur le port 5000 et avec un callback qui me fait un retour en console.
-//utilisation de la variable d'env.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodySanitizer);
@@ -30,5 +27,5 @@ app.use(session({
 app.use(userMiddleware);
 app.use(router);
 app.use('/IMG', express.static(path.join(__dirname, 'IMG')));
-app.listen(process.env.PORT, 
+app.listen(5000,
     ()=>{console.log('connexion au serveur : ok')})
