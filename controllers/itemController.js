@@ -1,23 +1,9 @@
 const {Item, Category, Recipe, ItemRecipe} = require('../models/');
 const { findByPk} = require("../models/recipe");
+const {findOne} = require("../models/categoryItem");
+const {CategoryItem} = require("../models");
 
 const itemController = {
-
-    viewAllItemsForCategories: async (req, res) => {
-        const id = req.params.id;
-        try {
-            const item = await Item.findByPk(id, {
-                include: [
-
-                    { association: ''}
-                ]
-            });
-            res.status(200).json(item)
-        }catch (err) {
-            console.trace(err);
-            res.status(500).send(err);
-        }
-    },
 
     getAllItems : async (req, res) => {
         try {
@@ -28,7 +14,6 @@ const itemController = {
             res.status(500).json(err.toString());
         }
     },
-
     getItem: async (req, res) => {
         try {
             const id = req.params.id;
@@ -44,19 +29,15 @@ const itemController = {
             res.status(500).json(err.toString());
         }
     },
-
     createItem: async (req, res) => {
         try {
             const {name} = req.body;
-
             if (!name) {
                 return res.status(400).json('il manque le nom')
             }
-
             const item = new Item({
                 name,
             });
-
             await item.save();
             res.status(201).json(item);
         }catch (err) {
@@ -64,7 +45,6 @@ const itemController = {
             res.status(500).json(err.toString());
         }
     },
-
     updateItem: async(req, res) =>{
         try {
             const id = req.params.id;
@@ -85,7 +65,6 @@ const itemController = {
             res.status(500).json(err.toString());
         }
     },
-
     deleteItem: async(req, res) =>{
         try {
             const id = req.params.id;
@@ -95,70 +74,13 @@ const itemController = {
                 await item.destroy();
                 res.json('ok');
             }else {
-                res.status(404).json('Can\t find any list with this ID.');
+                res.status(404).json('produit inconnu');
             }
         }catch(err){
             console.trace(err);
             res.status(500).json(err.toString());
         }
     },
-
-    associateCategoryToItem: async (req, res) =>{
-        try {
-            const {categoryId, itemId } = req.params;
-
-            let item = await Item.findByPk(id, {
-                include: ['categories'],
-            });
-            if (!item){
-                return res.status(400).json('produit inconnu');
-            }
-
-            const category = await Category.findByPk(categoryId);
-            if (!category) {
-                return res.status(400).json('categorie inconnu');
-            }
-
-            await item.addCategory(category);
-            item = await Item.findByPk(itemId, {
-                include: ['categories'],
-            })
-
-            res.json(item);
-        }catch (err) {
-            console.trace(err);
-            res.status(500).json(err.toString());
-        }
-    },
-
-    deleteCategoryToItem: async (req, res) =>{
-        try {
-            const {categoryId, itemId} = req.params;
-
-            let item = await Item.findByPk(id, {
-                include: ['categories'],
-            });
-            if (!item){
-                return res.status(400).json('produit inconnu');
-            }
-
-            const category = await Category.findByPk(categoryId);
-            if (!category) {
-                return res.status(400).json('categorie inconnu');
-            }
-
-            await item.removeCategory(category);
-            item = await Item.findByPk(itemId, {
-                include: ['categories'],
-            })
-
-            res.json(item);
-        }catch (err) {
-            console.trace(err);
-            res.status(500).json(err.toString());
-        }
-    },
-
     associateRecipeToItem: async (req, res) => {
         try {
             const { itemId, recipeId } = req.params;
@@ -187,40 +109,31 @@ const itemController = {
                 quantity: quantity,
                 unit: unit,
             });
-            item = await Item.findByPk(itemId, {
-                include: [{
-                    model: Recipe,
-                    as: 'recipe',
-                    through: {
-                        model: ItemRecipe,
-                    },
-                }],
-            });
-            res.json(item);
+            res.json({item_id: itemId,
+                recipe_id: recipeId,
+                quantity: quantity,
+                unit: unit,});
         } catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
         }
     },
-
-    removeFromRecipe: async (req, res) => {
+    deleteAssociationRecipe: async (req, res) => {
         try {
             const { itemId, recipeId } = req.params;
-            let item = await Item.findByPk(itemId);
-            if (!item) {
-                return res.status(400).json('Produit inconnu');
+            const existingAssociation = await ItemRecipe.findOne({
+                where: {
+                    item_id: itemId,
+                    recipe_id: recipeId,
+                },
+            });
+            if (!existingAssociation) {
+                return res.status(400).json({message: 'association inexistante'});
             }
-            const recipe = await findByPk(recipeId);
-            if (!recipe) {
-                return res.status(400).json('Recette inconnue');
-            }
-            await Item.destroy(recipe);
-            item = await Item.findByPk(itemId);
-
-            res.json(item);
+            await existingAssociation.destroy();
+            res.json({message: 'suppression réussi'});
         } catch (err) {
-            console.trace(err);
-            res.status(500).json(err.toString());
+            return console.log(err);
         }
     },
 }

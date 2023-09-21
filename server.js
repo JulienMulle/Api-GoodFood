@@ -2,8 +2,6 @@
 const express = require('express');
 const session = require('express-session');
 const userMiddleware = require('./middlewares/userMiddleware');
-//je vais chercher mon fichier .env où je stocke mes données sensibles
-require('dotenv').config({path: './config/.env'});
 const bodyParser = require('body-parser');
 const bodySanitizer = require('./middlewares/bodySanitizer');
 const path = require('path');

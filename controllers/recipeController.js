@@ -1,4 +1,4 @@
-const {Recipe, Item,ItemRecipe } = require('../models');
+const {Recipe, Item,ItemRecipe, Category, CategoryItem} = require('../models');
 
 const recipeController = {
     getAllRecipes: async (req, res) =>{
@@ -18,7 +18,6 @@ const recipeController = {
             res.status(500).send(err.toString());
         }
     },
-
     createRecipe: async (req, res) => {
         try {
             const { title, description } = req.body;
@@ -44,7 +43,6 @@ const recipeController = {
             res.status(500).send(err.toString());
         }
     },
-
     updateRecipe: async (req, res) =>{
         try {
             const id = req.params.id;
@@ -66,7 +64,6 @@ const recipeController = {
             res.status(500).send(err.toString());
         }
     },
-
     deleteRecipe: async (req, res) =>{
         try {
             const id = req.params.id;
@@ -87,7 +84,6 @@ const recipeController = {
             res.status(500).send(err.toString());
         }
     },
-
     getRecipeWithItem: async (req, res)=>{
         try {
             const id = req.params.id;
@@ -110,6 +106,7 @@ const recipeController = {
             res.status(500).json(err.toString());
         }
     }
+
 
 
 };

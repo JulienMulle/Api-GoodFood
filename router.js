@@ -19,19 +19,18 @@ router.post('/category', categoryController.createCategory);
 router.get('/category/:id', categoryController.getCategory);
 router.patch('/category/:id', categoryController.updateCategory);
 router.delete('/category/:id', categoryController.deleteCategory);
-//router.post('/categories/:categoryId/recipes') à y songer
-
+router.post('/category/:itemId/associateCategoryToItem/:categoryId', categoryController.associateItemToCategory);
+router.delete('/category/:itemId/deleteAssociationItem/:categoryId', categoryController.deleteCategoryToItem);
+router.post('/category/:recipeId/associateCategoryToRecipe/:categoryId', categoryController.associateRecipeToCategory);
+router.delete('/category/:recipeId/deleteAssociationRecipe/:categoryId', categoryController.deleteCategoryToRecipe);
 //routes pour les items
 router.get('/items', itemController.getAllItems);
-//router.get('/item/:id', itemController.viewAllItemsForCategories);
 router.get('/item/:id', itemController.getItem);
 router.post('/item/', itemController.createItem);
 router.patch('/item/:id', itemController.updateItem);
 router.delete('/item/:id', itemController.deleteItem);
-router.post('/items/:id/categories/:categoryId', itemController.associateCategoryToItem);
-router.delete('/items/:itemId/categories/:categoryId', itemController.deleteCategoryToItem);
 router.post('/item/:itemId/associateRecipe/:recipeId', itemController.associateRecipeToItem);
-router.delete('/:itemId/removeFromRecipe/:recipeId', itemController.removeFromRecipe);
+router.delete('/item/:itemId/deleteAssociationRecipe/:recipeId', itemController.deleteAssociationRecipe);
 
 //routes pour recipes
 router.get('/recipe/:id', recipeController.getRecipeWithItem);

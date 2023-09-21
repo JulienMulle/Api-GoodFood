@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS "item_recipe"(
     "recipe_id" INTEGER REFERENCES "recipe"("id"),
     "item_id" INTEGER REFERENCES "item"("id"),
     "quantity" NUMERIC,
-    "unit" NUMERIC,
+    "unit" VARCHAR,
     PRIMARY KEY ("item_id", "recipe_id")
 );
 
