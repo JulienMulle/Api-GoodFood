@@ -1,4 +1,4 @@
-const {Recipe, Item,ItemRecipe, Category, CategoryItem} = require('../models');
+const {Recipe, Item,ItemRecipe, Category, CategoryItem, CategoryRecipe} = require('../models');
 
 const recipeController = {
     getAllRecipes: async (req, res) =>{
@@ -71,11 +71,17 @@ const recipeController = {
             if (!recipe) {
                 return res.status(400).send('recette introuvable');
             }
+            const categoriesAssociations = await CategoryRecipe.findAll({
+                where: { recipe_id: recipe.id}
+            })
+            for (const associationCategories of categoriesAssociations){
+                await associationCategories.destroy();
+            }
             const itemAssociations = await ItemRecipe.findAll({
                 where: { recipe_id: recipe.id },
             });
-            for (const association of itemAssociations) {
-                await association.destroy();
+            for (const associationItems of itemAssociations) {
+                await associationItems.destroy();
             }
             await recipe.destroy();
             res.send('recette supprimée')
@@ -84,7 +90,7 @@ const recipeController = {
             res.status(500).send(err.toString());
         }
     },
-    getRecipeWithItem: async (req, res)=>{
+    getRecipeWithItems: async (req, res)=>{
         try {
             const id = req.params.id;
             const recipe = await Recipe.findByPk(id, {
@@ -95,6 +101,35 @@ const recipeController = {
                         model: ItemRecipe,
                     },
                 }],
+            });
+            if (!recipe) {
+                return res.status(404).json('Recette non trouvée');
+            }
+
+            res.json(recipe);
+        } catch (err) {
+            console.trace(err);
+            res.status(500).json(err.toString());
+        }
+    },
+    getRecipeWithItemAndCategories: async (req, res)=>{
+        try {
+            const id = req.params.id;
+            const recipe = await Recipe.findByPk(id, {
+                include: [{
+                    model: Item,
+                    as: 'items',
+                    through: {
+                        model: ItemRecipe,
+                    }},
+                    {
+                        model:Category,
+                        as:'categories',
+                        through: {
+                            model: CategoryRecipe
+                        }
+                    }
+                ],
             });
             if (!recipe) {
                 return res.status(404).json('Recette non trouvée');

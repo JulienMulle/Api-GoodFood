@@ -1,7 +1,8 @@
-const {Item, Category, Recipe, ItemRecipe} = require('../models/');
-const { findByPk} = require("../models/recipe");
-const {findOne} = require("../models/categoryItem");
-const {CategoryItem} = require("../models");
+const {
+    Item, Category,
+    Recipe,
+    ItemRecipe
+} = require('../models/');
 
 const itemController = {
 

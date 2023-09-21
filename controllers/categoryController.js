@@ -88,7 +88,8 @@ const categoryController = {
         try {
             const { recipeId,categoryId } = req.params;
             const recipe = await Recipe.findByPk(recipeId, {
-                include: ['categories'],
+                model: Recipe,
+                include: ['categories']
             })
             if (!recipe){
                 return res.status(400).json('recette inconnu');
@@ -117,14 +118,14 @@ const categoryController = {
                 category_id: categoryId,
             });
         }catch (err) {
-            console.trace(err);
+            console.trace(err, );
             res.status(500).json(err.toString());
         }
     },
     deleteCategoryToRecipe: async (req, res) =>{
         try {
             const {categoryId, recipeId} = req.params;
-            const existingAssociation = await CategoryItem.findOne({
+            const existingAssociation = await CategoryRecipe.findOne({
                 where: {
                     recipe_id: recipeId,
                     category_id: categoryId,

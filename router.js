@@ -33,7 +33,8 @@ router.post('/item/:itemId/associateRecipe/:recipeId', itemController.associateR
 router.delete('/item/:itemId/deleteAssociationRecipe/:recipeId', itemController.deleteAssociationRecipe);
 
 //routes pour recipes
-router.get('/recipe/:id', recipeController.getRecipeWithItem);
+router.get('/recipe/:id', recipeController.getRecipeWithItems);
+router.get('/recipeWithAssociation/:id', recipeController.getRecipeWithItemAndCategories);
 router.get('/recipes', recipeController.getAllRecipes);
 router.post('/recipe', multer, recipeController.createRecipe);
 router.patch('/recipe/:id', multer, recipeController.updateRecipe);

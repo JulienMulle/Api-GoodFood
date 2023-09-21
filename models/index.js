@@ -35,8 +35,8 @@ User.hasMany(Item, {
 // Chaque recette peut appartenir à plusieurs catégories,
 // et chaque catégorie peut contenir plusieurs recettes.
 Recipe.belongsToMany(Category, {
-    foreignKey: 'recipe_id',
-    otherKey: 'category_id',
+    foreignKey: 'category_id',
+    otherKey: 'recipe_id',
     through: { model: CategoryRecipe, unique: false },
     as: 'categories'
 })

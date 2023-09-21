@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "category_item"(
     PRIMARY KEY ("category_id", "item_id")
 );
 
-CREATE TABLE IF NOT EXISTS "recipe_category"(
+CREATE TABLE IF NOT EXISTS "category_recipe"(
     "recipe_id" INTEGER REFERENCES "recipe"("id"),
     "category_id" INTEGER REFERENCES "category"("id"),
     PRIMARY KEY ("category_id", "recipe_id")
