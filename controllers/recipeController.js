@@ -1,16 +1,27 @@
-const {Recipe, Item,ItemRecipe, Category, CategoryItem, CategoryRecipe} = require('../models');
+const {
+    Recipe,
+    Item,
+    ItemRecipe,
+    Category, CategoryItem,
+    CategoryRecipe
+} = require('../models');
 
 const recipeController = {
     getAllRecipes: async (req, res) =>{
         try {
-            const recipes = await Recipe.findAll({
+            const id = req.params.id;
+            const recipes = await Recipe.findByPk(id,{
                 include:[{
                     model:Item,
                     as:'items',
-                    through:{
-                        model:ItemRecipe
-                    }
-                }]
+                    through: ItemRecipe
+                },
+                    {
+                        model:Category,
+                        as:'categories',
+                        through:
+                         CategoryRecipe
+                    }]
             });
             res.send(recipes);
         }catch(err){
@@ -97,9 +108,7 @@ const recipeController = {
                 include: [{
                     model: Item,
                     as: 'items',
-                    through: {
-                        model: ItemRecipe,
-                    },
+                    through: ItemRecipe
                 }],
             });
             if (!recipe) {

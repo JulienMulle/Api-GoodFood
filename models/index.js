@@ -64,16 +64,16 @@ Category.belongsToMany(Item, {
 })
 //est composé de, ON item, 1N recipe
 Recipe.belongsToMany(Item,{
-    foreignKey:'item_id',
-    otherKey:'recipe_id',
-    through: {model: ItemRecipe, unique: false },
+    foreignKey:'recipe_id',
+    otherKey:'item_id',
+    through: ItemRecipe,
     as:'items'
 });
 //reciproque
 Item.belongsToMany(Recipe, {
-    otherKey:'recipe_id',
     foreignKey:'item_id',
-    through: {model: ItemRecipe, unique: false },
+    otherKey:'recipe_id',
+    through: ItemRecipe,
     as: 'recipes',
 })
 module.exports = {

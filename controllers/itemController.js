@@ -18,7 +18,13 @@ const itemController = {
     getItem: async (req, res) => {
         try {
             const id = req.params.id;
-            const item = await Item.findByPk(id);
+            const item = await Item.findByPk(id,    {
+                include:[{
+                    model: Recipe,
+                    as: 'recipes',
+                    through: ItemRecipe
+                }]
+            });
 
             if (item){
                 res.json(item);
@@ -58,7 +64,6 @@ const itemController = {
             if(name) {
                 newitem.name = name;
             }
-
             await newitem.save();
             res.status(200).json(newitem);
         } catch (err) {
@@ -102,7 +107,7 @@ const itemController = {
             });
 
             if (existingAssociation) {
-                return res.status(200).json(item);
+                return res.status(400).json('association deja actuel');
             }
             await ItemRecipe.create({
                 item_id: itemId,
