@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS "category_recipe"(
 
 CREATE TABLE IF NOT EXISTS "shopping" (
     "id" SERIAL PRIMARY KEY,
+    "date" TIMESTAMP NOT NULL ,
     "recipe_id" INTEGER REFERENCES "recipe"("id"),
     "item_id" INTEGER REFERENCES "item"("id"),
     "quantity" NUMERIC,
@@ -67,6 +68,7 @@ CREATE TABLE IF NOT EXISTS "shopping" (
 
 CREATE TABLE IF NOT EXISTS "planning" (
     "id" SERIAL PRIMARY KEY,
+    "date" TIMESTAMP NOT NULL ,
     "day_of_week" VARCHAR NOT NULL,
     "period" VARCHAR NOT NULL,
     "recipe_id" INTEGER REFERENCES "recipe"("id")
