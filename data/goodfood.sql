@@ -57,3 +57,18 @@ CREATE TABLE IF NOT EXISTS "category_recipe"(
     PRIMARY KEY ("category_id", "recipe_id")
 );
 
+CREATE TABLE IF NOT EXISTS "shopping" (
+    "id" SERIAL PRIMARY KEY,
+    "recipe_id" INTEGER REFERENCES "recipe"("id"),
+    "item_id" INTEGER REFERENCES "item"("id"),
+    "quantity" NUMERIC,
+    "unit" VARCHAR
+);
+
+CREATE TABLE IF NOT EXISTS "planning" (
+    "id" SERIAL PRIMARY KEY,
+    "day_of_week" VARCHAR NOT NULL,
+    "period" VARCHAR NOT NULL,
+    "recipe_id" INTEGER REFERENCES "recipe"("id")
+);
+

@@ -9,19 +9,18 @@ const {
 const recipeController = {
     getAllRecipes: async (req, res) =>{
         try {
-            const id = req.params.id;
-            const recipes = await Recipe.findByPk(id,{
+            const recipes = await Recipe.findAll({
                 include:[{
                     model:Item,
                     as:'items',
                     through: ItemRecipe
-                },
-                    {
-                        model:Category,
-                        as:'categories',
-                        through:
-                         CategoryRecipe
-                    }]
+                },{
+                    model:Category,
+                    as:'categories',
+                    through: {
+                        model: CategoryRecipe
+                    }
+                }]
             });
             res.send(recipes);
         }catch(err){

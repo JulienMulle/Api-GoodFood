@@ -68,22 +68,39 @@ const categoryController = {
             res.status(500).json(err.toString());
         }
     },
-    deleteCategory: async(req, res) =>{
+    deleteCategory: async (req, res) => {
         try {
             const id = req.params.id;
             const category = await Category.findByPk(id);
 
-            if (!category) {
-                return res.status(404).json('categorie inconnu');
+            if (category) {
+                const existingItemAssociations = await CategoryItem.findAll({
+                    where: { category_id: id }
+                });
+                const existingRecipeAssociation = await CategoryRecipe.findAll({
+                    where: { category_id: id }
+                })
+                if (existingItemAssociations && existingItemAssociations.length > 0) {
+                    for (const association of existingItemAssociations) {
+                        await association.destroy();
+                    }
+                }
+                if(existingRecipeAssociation && existingRecipeAssociation.length > 0){
+                    for (const association of existingRecipeAssociation){
+                        await association.destroy();
+                    }
+                }
+                await category.destroy();
+                res.json('ok');
+            } else {
+                res.status(404).json('categorie inconnue');
             }
-
-            await category.destroy();
-            res.json('ok');
-        }catch(err){
+        } catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
         }
     },
+
     associateRecipeToCategory: async (req, res) =>{
         try {
             const { recipeId,categoryId } = req.params;

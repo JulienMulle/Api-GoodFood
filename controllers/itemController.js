@@ -3,6 +3,7 @@ const {
     Recipe,
     ItemRecipe
 } = require('../models/');
+const {CategoryRecipe} = require("../models");
 
 const itemController = {
 
@@ -23,7 +24,13 @@ const itemController = {
                     model: Recipe,
                     as: 'recipes',
                     through: ItemRecipe
-                }]
+                },
+                    {
+                        model:Category,
+                        as:'categories',
+                        through:
+                        CategoryRecipe
+                    }]
             });
 
             if (item){
@@ -71,22 +78,44 @@ const itemController = {
             res.status(500).json(err.toString());
         }
     },
-    deleteItem: async(req, res) =>{
+    deleteItem: async (req, res) => {
         try {
             const id = req.params.id;
             const item = await Item.findByPk(id);
 
             if (item) {
+                const existingCategoryAssociations = await CategoryItem.findAll({
+                    where: {
+                        item_id: id,
+                    },
+                });
+                const existingRecipeAssociations = await ItemRecipe.findAll({
+                    where: {
+                        item_id: id,
+                    },
+                });
+                if (existingCategoryAssociations && existingCategoryAssociations.length > 0) {
+                    for (const association of existingCategoryAssociations) {
+                        await association.destroy();
+                    }
+                }
+                if (existingRecipeAssociations && existingRecipeAssociations.length > 0) {
+                    for (const association of existingRecipeAssociations) {
+                        await association.destroy();
+                    }
+                }
                 await item.destroy();
                 res.json('ok');
-            }else {
+            } else {
                 res.status(404).json('produit inconnu');
             }
-        }catch(err){
+        } catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
         }
     },
+
+
     associateRecipeToItem: async (req, res) => {
         try {
             const { itemId, recipeId } = req.params;
@@ -142,6 +171,7 @@ const itemController = {
             return console.log(err);
         }
     },
+
 }
 
 module.exports = itemController;

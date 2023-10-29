@@ -8,7 +8,6 @@ const sequelize = new Sequelize('goodfood', 'Julien', 'anais,2105', {
 
 try{
     sequelize.authenticate();
-    console.log('connexion à la bdd : ok');
 } catch(error){
     console.error('connexion à la bdd : nope', error);
 }
