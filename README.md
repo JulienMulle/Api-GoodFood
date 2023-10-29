@@ -1,4 +1,4 @@
 # Api-GoodFood
-Api rest créée pour le projet HappyFood qui est un planificateur de menu pour la semaine.
+Api rest créée pour le projetBonApp qui est un planificateur de menu.
 
 L'Api est basé sur postgreSQL, nodejs, express, sequelize, multer, bcrypt.
