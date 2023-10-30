@@ -77,14 +77,6 @@ Item.belongsToMany(Recipe, {
     through: ItemRecipe,
     as: 'recipes',
 });
-// Relations pour la table Planning
-Planning.belongsTo(User, {
-    foreignKey: 'user_id',
-});
-User.hasMany(Planning, {
-    foreignKey: 'user_id',
-});
-
 // Associer la planification à une recette
 Planning.belongsTo(Recipe, {
     foreignKey: 'recipe_id',
@@ -92,14 +84,21 @@ Planning.belongsTo(Recipe, {
 Recipe.hasMany(Planning, {
     foreignKey: 'recipe_id',
 });
+// Relations pour la table Planning
+/*Planning.belongsTo(User, {
+    foreignKey: 'user_id',
+});
+User.hasMany(Planning, {
+    foreignKey: 'user_id',
+});*/
 
-// Associer la planification à un article
+/*// Associer la planification à un article
 Planning.belongsTo(Item, {
     foreignKey: 'item_id',
 });
 Item.hasMany(Planning, {
     foreignKey: 'item_id',
-});
+});*/
 Shopping.belongsTo(Recipe, {
     foreignKey: 'recipe_id',
 });

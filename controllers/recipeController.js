@@ -45,7 +45,6 @@ const recipeController = {
                 description,
                 picture,
             });
-            console.log(picture);
             await recipe.save();
             res.send(recipe);
         } catch (err) {

@@ -3,6 +3,7 @@ const userController = require('./controllers/userController');
 const categoryController = require('./controllers/categoryController');
 const itemController = require('./controllers/itemController');
 const recipeController = require('./controllers/recipeController');
+const planningController = require('./controllers/planningController');
 const multer = require('./middlewares/uploadMedia');
 
 const router = express.Router();
@@ -31,7 +32,6 @@ router.patch('/item/:id', itemController.updateItem);
 router.delete('/item/:id', itemController.deleteItem);
 router.post('/item/:itemId/associateRecipe/:recipeId', itemController.associateRecipeToItem);
 router.delete('/item/:itemId/deleteAssociationRecipe/:recipeId', itemController.deleteAssociationRecipe);
-
 //routes pour recipes
 router.get('/recipe/:id', recipeController.getRecipeWithItems);
 router.get('/recipeWithAssociation/:id', recipeController.getRecipeWithItemAndCategories);
@@ -39,5 +39,11 @@ router.get('/recipes', recipeController.getAllRecipes);
 router.post('/recipe', multer, recipeController.createRecipe);
 router.patch('/recipe/:id', multer, recipeController.updateRecipe);
 router.delete('/recipe/:id', recipeController.deleteRecipe);
+//routes pour les plannings
+router.get('/planning/:id', planningController.getPlanning);
+router.get('/plannings', planningController.getAllPlannings);
+router.post('/planning/:recipeId', planningController.createPlanning);
+//router.get('/planning/:id', planningController.updatePlanning);
+//router.get('/planning/:id', planningController.deletePlanning);
 
 module.exports = router;

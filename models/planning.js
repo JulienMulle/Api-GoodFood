@@ -13,6 +13,7 @@ Planning.init({
     period:DataTypes.STRING,
 },{
     sequelize,
+    timestamps: false,
     tableName:"planning"
 })
 

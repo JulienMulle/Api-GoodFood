@@ -7,7 +7,7 @@ const {CategoryRecipe} = require("../models");
 
 const itemController = {
 
-    getAllItems : async (req, res) => {
+    getAllItems: async (req, res) => {
         try {
             const items = await Item.findAll();
             res.json(items);
