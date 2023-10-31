@@ -4,6 +4,7 @@ const categoryController = require('./controllers/categoryController');
 const itemController = require('./controllers/itemController');
 const recipeController = require('./controllers/recipeController');
 const planningController = require('./controllers/planningController');
+const shoppingController = require('./controllers/shoppingController')
 const multer = require('./middlewares/uploadMedia');
 
 const router = express.Router();
@@ -45,5 +46,10 @@ router.get('/plannings', planningController.getAllPlannings);
 router.post('/planning/:recipeId', planningController.createPlanning);
 router.patch('/planning/:id', planningController.updatePlanning);
 router.delete('/planning/:id', planningController.deletePlanning);
-
+//routes pour les listes de courses
+router.get('/shopping/:id', shoppingController.getShopping);
+router.get('/shoppings', shoppingController.getAllShopping);
+router.post('/planning/', shoppingController.createShopping);
+router.patch('/shopping/:id', shoppingController.updateShopping);
+router.delete('/shopping/:id', shoppingController.deleteShopping);
 module.exports = router;
