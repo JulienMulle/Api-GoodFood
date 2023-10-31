@@ -43,7 +43,7 @@ router.delete('/recipe/:id', recipeController.deleteRecipe);
 router.get('/planning/:id', planningController.getPlanning);
 router.get('/plannings', planningController.getAllPlannings);
 router.post('/planning/:recipeId', planningController.createPlanning);
-//router.get('/planning/:id', planningController.updatePlanning);
-//router.get('/planning/:id', planningController.deletePlanning);
+router.patch('/planning/:id', planningController.updatePlanning);
+router.delete('/planning/:id', planningController.deletePlanning);
 
 module.exports = router;
