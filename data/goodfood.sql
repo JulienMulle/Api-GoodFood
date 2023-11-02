@@ -60,7 +60,11 @@ CREATE TABLE IF NOT EXISTS "category_recipe"(
 CREATE TABLE IF NOT EXISTS "shopping" (
     "id" SERIAL PRIMARY KEY,
     "date" TIMESTAMP NOT NULL ,
-    "recipe_id" INTEGER REFERENCES "recipe"("id"),
+    "title" VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "shopping_item" (
+    "shopping_id" INTEGER REFERENCES "shopping"("id"),
     "item_id" INTEGER REFERENCES "item"("id"),
     "quantity" NUMERIC,
     "unit" VARCHAR

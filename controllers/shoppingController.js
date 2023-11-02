@@ -1,4 +1,4 @@
-const { Shopping, Item} = require('../models');
+const { Shopping, ShoppingItem, Item} = require('../models');
 
 const shoppingController = {
     getAllShopping: async (req, res) => {
@@ -13,7 +13,13 @@ const shoppingController = {
     getShopping: async (req, res) =>{
         try {
             const shoppingId = req.params.id;
-            const shopping = await Shopping.findByPk(shoppingId);
+            const shopping = await Shopping.findByPk(shoppingId, {
+                include:[{
+                    model:Item,
+                    as: 'items',
+                    through: ShoppingItem
+                }]
+            });
             res.json(shopping);
         }catch (error) {
             console.trace(error);
@@ -27,7 +33,7 @@ const shoppingController = {
                 title: title,
                 date: date
             })
-            await shopping.save;
+            await shopping.save();
             res.send(shopping);
         }catch (err) {
             console.trace(err);
@@ -63,7 +69,7 @@ const shoppingController = {
             res.status(500).send(err.toString());
         }
     },
-    addingItem: async () =>{
+    addingItem: async (req, res) =>{
         try {
             const { shoppingId, itemId } = req.params;
             const { quantity, unit } = req.body;
@@ -75,17 +81,36 @@ const shoppingController = {
             if (!item){
                 return res.status(400).send('produit inconnue')
             }
-            await Shopping.update({
+            const existingAssociation = await ShoppingItem.findOne({
+                where:{
+                    item_id: itemId,
+                    shopping_id: shoppingId
+                }
+            })
+            if (existingAssociation) {
+                return res.status(400).json('association deja actuel');
+            }
+            await ShoppingItem.create({
                 item_id: itemId,
                 quantity: quantity,
                 unit: unit
             });
-            res.json({item_id: itemId,
+            res.json({
+                shopping_id: shoppingId,
+                item_id: itemId,
                 quantity: quantity,
                 unit: unit});
         }catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
+        }
+    },
+    deleteItem: async () =>{
+        try {
+            const { shoppingId, itemId } = req.params;
+
+        }catch (err) {
+            return console.log(err);
         }
     }
 }

@@ -7,6 +7,7 @@ const CategoryItem = require("./categoryItem");
 const CategoryRecipe = require("./categoryRecipe");
 const Planning = require("./planning");
 const Shopping = require("./shopping")
+const ShoppingItem = require("./shoppingItem")
 
 //peut crée, 0N user, 11 recipe
 Recipe.belongsTo(User, {
@@ -91,7 +92,6 @@ Recipe.hasMany(Planning, {
 User.hasMany(Planning, {
     foreignKey: 'user_id',
 });*/
-
 /*// Associer la planification à un article
 Planning.belongsTo(Item, {
     foreignKey: 'item_id',
@@ -99,20 +99,26 @@ Planning.belongsTo(Item, {
 Item.hasMany(Planning, {
     foreignKey: 'item_id',
 });*/
-Shopping.belongsTo(Recipe, {
+/*Shopping.belongsTo(Recipe, {
     foreignKey: 'recipe_id',
 });
 Recipe.hasMany(Shopping, {
     foreignKey: 'recipe_id',
 });
-
+*/
 // Relation avec la table Item
-Shopping.belongsTo(Item, {
+Shopping.belongsToMany(Item, {
+    foreignKey: 'shopping_id',
+    otherKey:'item_id',
+    through: ShoppingItem,
+    as: 'items'
+});Item.belongsToMany(Shopping, {
     foreignKey: 'item_id',
+    otherKey: 'shopping_id',
+    through: ShoppingItem,
+    as: 'shopping'
 });
-Item.hasMany(Shopping, {
-    foreignKey: 'item_id',
-});
+
 module.exports = {
     Category,
     Item,
@@ -122,5 +128,6 @@ module.exports = {
     CategoryItem,
     CategoryRecipe,
     Shopping,
-    Planning
+    Planning,
+    ShoppingItem
 }

@@ -9,8 +9,6 @@ Shopping.init({
         type: DataTypes.DATE,
         allowNull: false
     },
-    quantity: DataTypes.DECIMAL,
-    unit: DataTypes.STRING,
 }, {
     sequelize,
     timestamps: false,
