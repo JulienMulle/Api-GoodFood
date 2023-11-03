@@ -53,4 +53,5 @@ router.post('/shopping/', shoppingController.createShopping);
 router.post('/shopping/:shoppingId/associateItem/:itemId', shoppingController.addingItem)
 router.patch('/shopping/:id', shoppingController.updateShopping);
 router.delete('/shopping/:id', shoppingController.deleteShopping);
+router.delete('/shopping/:shoppingId/associateItem/:itemId', shoppingController.deleteItem);
 module.exports = router;

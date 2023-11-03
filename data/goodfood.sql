@@ -67,7 +67,8 @@ CREATE TABLE IF NOT EXISTS "shopping_item" (
     "shopping_id" INTEGER REFERENCES "shopping"("id"),
     "item_id" INTEGER REFERENCES "item"("id"),
     "quantity" NUMERIC,
-    "unit" VARCHAR
+    "unit" VARCHAR,
+    "isChecked" BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS "planning" (
