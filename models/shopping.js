@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../db');
+const { BOOLEAN } = require('sequelize');
 
 class Shopping extends Model {}
 Shopping.init({
@@ -7,8 +8,9 @@ Shopping.init({
     title: DataTypes.STRING,
     date: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     },
+    isActive: BOOLEAN
 }, {
     sequelize,
     timestamps: false,

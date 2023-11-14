@@ -37,7 +37,8 @@ const shoppingController = {
             const {title,date } =req.body;
             const shopping = new Shopping({
                 title: title,
-                date: date
+                date: date,
+                isActive: false
             })
             await shopping.save();
             res.send(shopping);
@@ -49,13 +50,14 @@ const shoppingController = {
     updateShopping: async (req, res) =>{
       try {
           const shoppingId = req.params.id;
-          const {title} = req.body;
+          const {title, isActive} = req.body;
           const shopping = await Shopping.findByPk(shoppingId);
           if (!shopping){
               return res.status(400).send('liste introuvable')
           }
-          if (title){
+          if (title || isActive){
               shopping.title = title;
+              shopping.isActive = isActive
           }
           await shopping.save();
           res.send(shopping)
