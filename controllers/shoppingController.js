@@ -34,12 +34,13 @@ const shoppingController = {
     },
     createShopping: async (req, res) => {
         try {
-            const {title,date } =req.body;
+            const {title,date, isActive } =req.body;
             const shopping = new Shopping({
                 title: title,
                 date: date,
-                isActive: false
+                isActive: isActive
             })
+            console.log(shopping)
             await shopping.save();
             res.send(shopping);
         }catch (err) {
@@ -50,14 +51,14 @@ const shoppingController = {
     updateShopping: async (req, res) =>{
       try {
           const shoppingId = req.params.id;
-          const {title, isActive} = req.body;
+          const {title, isActive, unit, quantity} = req.body;
           const shopping = await Shopping.findByPk(shoppingId);
           if (!shopping){
               return res.status(400).send('liste introuvable')
           }
-          if (title || isActive){
+          if (title || isActive || unit || quantity){
               shopping.title = title;
-              shopping.isActive = isActive
+              shopping.isActive = isActive;
           }
           await shopping.save();
           res.send(shopping)
@@ -120,6 +121,29 @@ const shoppingController = {
                 isChecked: false
             });
         }catch (err) {
+            console.trace(err);
+            res.status(500).json(err.toString());
+        }
+    },
+    updateItemQuantity: async (req, res) => {
+        try {
+            const { shoppingId, itemId } = req.params;
+            const { quantity } = req.body;
+            const existingAssociation = await ShoppingItem.findOne({
+                where: {
+                    shopping_id: shoppingId,
+                    item_id: itemId
+                }
+            });
+            if (!existingAssociation) {
+                return res.status(400).json({ message: 'Association inexistante' });
+            }
+            existingAssociation.quantity = quantity;
+
+            await existingAssociation.save();
+
+            res.json(existingAssociation);
+        } catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
         }

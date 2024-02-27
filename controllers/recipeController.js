@@ -80,9 +80,11 @@ const recipeController = {
             if (!recipe) {
                 return res.status(400).send('recette introuvable');
             }
+
             const categoriesAssociations = await CategoryRecipe.findAll({
                 where: { recipe_id: recipe.id}
             })
+            console.log(categoriesAssociations)
             for (const associationCategories of categoriesAssociations){
                 await associationCategories.destroy();
             }

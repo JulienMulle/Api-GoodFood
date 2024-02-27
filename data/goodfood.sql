@@ -9,7 +9,6 @@ DROP TABLE IF EXISTS "item_recipe" CASCADE;
 DROP TABLE IF EXISTS "category_item" CASCADE;
 DROP TABLE IF EXISTS "recipe_category" CASCADE;
 
-
 CREATE TABLE IF NOT EXISTS "user" (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR,
@@ -60,7 +59,8 @@ CREATE TABLE IF NOT EXISTS "category_recipe"(
 CREATE TABLE IF NOT EXISTS "shopping" (
     "id" SERIAL PRIMARY KEY,
     "date" TIMESTAMP NOT NULL ,
-    "title" VARCHAR NOT NULL
+    "title" VARCHAR NOT NULL,
+    "isActive" BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS "shopping_item" (
