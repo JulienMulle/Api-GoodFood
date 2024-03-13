@@ -16,6 +16,29 @@ const shoppingController = {
             res.status(500).json(error.toString());
         }
     },
+    getShoppingIsActive: async (req, res) => {
+        try {
+            const activeShopping = await Shopping.findOne({
+                where: {
+                    isActive: true
+                },
+                include: [{
+                    model: Item,
+                    as: 'items',
+                    through: ShoppingItem
+                }]
+            });
+
+            if (activeShopping) {
+                res.json(activeShopping);
+            } else {
+                res.status(404).json({ message: 'Aucun shopping actif trouvé' });
+            }
+        } catch (error) {
+            console.trace(error);
+            res.status(500).json(error.toString());
+        }
+    },
     getShopping: async (req, res) =>{
         try {
             const shoppingId = req.params.id;
@@ -111,14 +134,12 @@ const shoppingController = {
                 item_id: itemId,
                 quantity: quantity,
                 unit: unit,
-                isChecked: false
             });
             res.json({
                 shopping_id: shoppingId,
                 item_id: itemId,
                 quantity: quantity,
                 unit: unit,
-                isChecked: false
             });
         }catch (err) {
             console.trace(err);
@@ -161,7 +182,7 @@ const shoppingController = {
                 return res.status(400).json({message: 'association inexistante'});
             }
             await existingAssociation.destroy();
-            res.json({message: 'suppression réussi'})
+            res.json(existingAssociation)
 
         }catch (err) {
             return console.log(err);

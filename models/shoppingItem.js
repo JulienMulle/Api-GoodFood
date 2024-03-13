@@ -12,7 +12,6 @@ ShoppingItem.init({
             len:[1.10]
         }
     },
-    isChecked: DataTypes.BOOLEAN
 },
     {
         sequelize,

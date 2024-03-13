@@ -49,6 +49,7 @@ router.delete('/planning/:id', planningController.deletePlanning);
 //routes pour les listes de courses
 router.get('/shopping/:id', shoppingController.getShopping);
 router.get('/shopping', shoppingController.getAllShopping);
+router.get('/shoppingIsActive', shoppingController.getShoppingIsActive);
 router.post('/shopping/', shoppingController.createShopping);
 router.post('/shopping/:shoppingId/associateItem/:itemId', shoppingController.addingItem)
 router.patch('/shopping/:id', shoppingController.updateShopping);

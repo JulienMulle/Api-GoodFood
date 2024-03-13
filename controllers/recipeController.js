@@ -5,6 +5,8 @@ const {
     Category, CategoryItem,
     CategoryRecipe
 } = require('../models');
+const fs = require('fs');
+const path = require('path');
 
 const recipeController = {
     getAllRecipes: async (req, res) =>{
@@ -94,8 +96,12 @@ const recipeController = {
             for (const associationItems of itemAssociations) {
                 await associationItems.destroy();
             }
+            if (recipe.picture) {
+                const imagePath = path.join(__dirname, '..', 'IMG', recipe.picture.split('/').pop());
+                fs.unlinkSync(imagePath);
+            }
             await recipe.destroy();
-            res.send('recette supprimée')
+            res.json(recipe)
         }catch(err){
             console.trace('error delete',err);
             res.status(500).send(err.toString());
