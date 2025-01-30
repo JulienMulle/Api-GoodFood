@@ -79,10 +79,14 @@ const shoppingController = {
           if (!shopping){
               return res.status(400).send('liste introuvable')
           }
+          console.log(isActive)
           if (title || isActive || unit || quantity){
               shopping.title = title;
               shopping.isActive = isActive;
+              shopping.unit = unit;
+              shopping.quantity = Number(quantity);
           }
+          console.log('updateShopping', shopping.quantity)
           await shopping.save();
           res.send(shopping)
       }catch (err) {
@@ -111,14 +115,17 @@ const shoppingController = {
     addingItem: async (req, res) =>{
         try {
             const { shoppingId, itemId } = req.params;
-            const { quantity, unit } = req.body;
-            let shopping = await Shopping.findByPk(shoppingId);
+            const  quantity  = 1;
+            const { unit } = req.body;
+            let shopping = await Shopping.findByPk(shoppingId,{
+                include: [{
+                    model: Item,
+                    as: 'items',
+                    through: ShoppingItem
+                }]
+            } );
             if(!shopping){
                 return res.status(400).send('liste inexistante')
-            }
-            const item = await Item.findByPk(itemId);
-            if (!item){
-                return res.status(400).send('produit inconnue')
             }
             const existingAssociation = await ShoppingItem.findOne({
                 where:{
@@ -132,15 +139,17 @@ const shoppingController = {
             await ShoppingItem.create({
                 shopping_id: shoppingId,
                 item_id: itemId,
-                quantity: quantity,
+                quantity: Number(quantity),
                 unit: unit,
             });
-            res.json({
-                shopping_id: shoppingId,
-                item_id: itemId,
-                quantity: quantity,
-                unit: unit,
+            const updatedShoppingList = await Shopping.findByPk(shoppingId, {
+                include: [{
+                    model: Item,
+                    as: 'items',
+                    through: ShoppingItem
+                }]
             });
+            res.json(updatedShoppingList);
         }catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
@@ -150,6 +159,7 @@ const shoppingController = {
         try {
             const { shoppingId, itemId } = req.params;
             const { quantity } = req.body;
+            const transformQuantity = Number(quantity)
             const existingAssociation = await ShoppingItem.findOne({
                 where: {
                     shopping_id: shoppingId,
@@ -159,7 +169,7 @@ const shoppingController = {
             if (!existingAssociation) {
                 return res.status(400).json({ message: 'Association inexistante' });
             }
-            existingAssociation.quantity = quantity;
+            existingAssociation.quantity = transformQuantity;
 
             await existingAssociation.save();
 
@@ -182,7 +192,15 @@ const shoppingController = {
                 return res.status(400).json({message: 'association inexistante'});
             }
             await existingAssociation.destroy();
-            res.json(existingAssociation)
+            const updatedShoppingList = await Shopping.findByPk(shoppingId, {
+                include: [{
+                    model: Item,
+                    as: 'items',
+                    through: ShoppingItem
+                }]
+            });
+
+            res.json(updatedShoppingList);
 
         }catch (err) {
             return console.log(err);
