@@ -58,7 +58,6 @@ const shoppingController = {
     addingItem: async (req, res) =>{
         try {
             const { shoppingId, itemId } = req.params;
-            console.log(itemId);
             const  quantity  = 1;
             const { unit } = req.body;
             let shopping = await Shopping.findByPk(shoppingId,{
@@ -108,7 +107,6 @@ const shoppingController = {
                 isActive: isActive
             });
             await shopping.save();
-            console.log(title, date, isActive, itemId);
             const shoppingId = shopping.id;
             const quantity = 1;
             await ShoppingItem.create({
@@ -140,14 +138,12 @@ const shoppingController = {
           if (!shopping){
               return res.status(400).send('liste introuvable')
           }
-          console.log(isActive)
           if (title || isActive || unit || quantity){
               shopping.title = title;
               shopping.isActive = isActive;
               shopping.unit = unit;
               shopping.quantity = Number(quantity);
           }
-          console.log('updateShopping', shopping.quantity)
           await shopping.save();
           res.send(shopping)
       }catch (err) {
@@ -165,9 +161,15 @@ const shoppingController = {
             for (const asso of association){
                 await asso.destroy();
             }
-
             await shopping.destroy();
-            res.send('list effacée')
+            const updatedShoppingList = await Shopping.findAll( {
+                include: [{
+                    model: Item,
+                    as: 'items',
+                    through: ShoppingItem
+                }]
+            });
+            res.json(updatedShoppingList)
         }catch(err){
             console.trace('error delete',err);
             res.status(500).send(err.toString());
@@ -217,7 +219,6 @@ const shoppingController = {
                     through: ShoppingItem
                 }]
             });
-
             res.json(updatedShoppingList);
 
         }catch (err) {

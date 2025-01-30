@@ -86,7 +86,6 @@ const recipeController = {
             const categoriesAssociations = await CategoryRecipe.findAll({
                 where: { recipe_id: recipe.id}
             })
-            console.log(categoriesAssociations)
             for (const associationCategories of categoriesAssociations){
                 await associationCategories.destroy();
             }
