@@ -3,7 +3,7 @@ const {
     Recipe,
     ItemRecipe
 } = require('../models/');
-const {CategoryRecipe} = require("../models");
+const {CategoryRecipe, ShoppingItem} = require("../models");
 
 const itemController = {
 
@@ -53,7 +53,8 @@ const itemController = {
                 name,
             });
             await item.save();
-            res.status(201).json(item);
+            const updatedItemList = await Item.findAll()
+            res.status(201).json(updatedItemList);
         }catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
@@ -84,31 +85,33 @@ const itemController = {
             const item = await Item.findByPk(id);
 
             if (item) {
-                const existingCategoryAssociations = await CategoryItem.findAll({
-                    where: {
-                        item_id: id,
-                    },
-                });
                 const existingRecipeAssociations = await ItemRecipe.findAll({
                     where: {
                         item_id: id,
                     },
                 });
-                if (existingCategoryAssociations && existingCategoryAssociations.length > 0) {
-                    for (const association of existingCategoryAssociations) {
-                        await association.destroy();
+                const existingShoppingAssociations = await ShoppingItem.findAll({
+                    where: {
+                        item_id: id,
                     }
-                }
+                })
                 if (existingRecipeAssociations && existingRecipeAssociations.length > 0) {
                     for (const association of existingRecipeAssociations) {
                         await association.destroy();
                     }
                 }
+                if (existingShoppingAssociations && existingShoppingAssociations.length > 0) {
+                    for (const association of existingShoppingAssociations) {
+                        await association.destroy();
+                    }
+                }
                 await item.destroy();
-                res.json('ok');
+                const updatedItemLis = await Item.findAll();
+                res.json(updatedItemLis);
             } else {
                 res.status(404).json('produit inconnu');
             }
+
         } catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
