@@ -53,8 +53,7 @@ const itemController = {
                 name,
             });
             await item.save();
-            const updatedItemList = await Item.findAll()
-            res.status(201).json(updatedItemList);
+            res.status(201).json(item);
         }catch (err) {
             console.trace(err);
             res.status(500).json(err.toString());
@@ -106,8 +105,7 @@ const itemController = {
                     }
                 }
                 await item.destroy();
-                const updatedItemLis = await Item.findAll();
-                res.json(updatedItemLis);
+                res.status(204).send('success');
             } else {
                 res.status(404).json('produit inconnu');
             }
