@@ -57,8 +57,10 @@ const recipeController = {
     updateRecipe: async (req, res) =>{
         try {
             const id = req.params.id;
-            const { title, description } = req.body;
-            const picture = `${req.protocol}://${req.get('host')}/IMG/${req.file.filename}`
+            const { title, description, pictureUrl } = req.body;
+            const picture = req.file
+            ? `${req.protocol}://${req.get('host')}/IMG/${req.file.filename}` // Nouvelle image
+            : pictureUrl;
             const recipe = await Recipe.findByPk(id);
             if (!recipe){
                 return res.status(400).send('recette introuvable')
